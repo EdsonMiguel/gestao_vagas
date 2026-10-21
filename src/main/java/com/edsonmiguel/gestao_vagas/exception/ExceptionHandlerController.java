@@ -17,7 +17,7 @@ import com.edsonmiguel.gestao_vagas.module.company.exception.CompanyAlreadyExist
 @RestControllerAdvice
 public class ExceptionHandlerController {
 
-  private MessageSource messageSource;
+  private final MessageSource messageSource;
 
   public ExceptionHandlerController(MessageSource messageSource) {
     this.messageSource = messageSource;
@@ -27,9 +27,8 @@ public class ExceptionHandlerController {
   public ResponseEntity<ErrorResponseDTO> handleMethodArgumentNotValidException(
       MethodArgumentNotValidException ex) {
     String description = ex.getBindingResult().getFieldErrors().stream()
-        .map(error -> error.getField() + ": "
-            + messageSource.getMessage(error, LocaleContextHolder.getLocale()))
-        .collect(Collectors.joining("; ", "Revise os campos informados: ", ""));
+        .map(error -> messageSource.getMessage(error, LocaleContextHolder.getLocale()))
+        .collect(Collectors.joining(" ", "Não foi possível validar os dados enviados: ", ""));
 
     return errorResponse(HttpStatus.BAD_REQUEST, description);
   }
@@ -37,6 +36,12 @@ public class ExceptionHandlerController {
   @ExceptionHandler({ CandidateAlreadyExistsException.class, CompanyAlreadyExistsException.class })
   public ResponseEntity<ErrorResponseDTO> handleAlreadyExistsException(RuntimeException ex) {
     return errorResponse(HttpStatus.CONFLICT, ex.getMessage());
+  }
+
+  @ExceptionHandler(Exception.class)
+  public ResponseEntity<ErrorResponseDTO> handleUnexpectedException(Exception ex) {
+    return errorResponse(HttpStatus.INTERNAL_SERVER_ERROR,
+        "Ocorreu um erro inesperado. Tente novamente mais tarde.");
   }
 
   private ResponseEntity<ErrorResponseDTO> errorResponse(HttpStatus status, String description) {

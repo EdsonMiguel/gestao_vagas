@@ -23,19 +23,19 @@ public class CandidateEntity {
   @GeneratedValue(strategy = GenerationType.UUID)
   private UUID id;
 
-  @NotBlank
+  @NotBlank(message = "Informe seu nome.")
   private String name;
 
-  @NotBlank
-  @Pattern(regexp = "^[a-zA-Z0-9_]+$", message = "O campo [username] deve conter apenas letras, números.")
+  @NotBlank(message = "Informe um nome de usuário.")
+  @Pattern(regexp = "^[a-zA-Z0-9_]+$", message = "O nome de usuário deve conter apenas letras, números ou sublinhado (_).")
   private String username;
 
-  @NotBlank
-  @Email(message = "O campo [email] deve ser um endereço de e-mail válido.")
+  @NotBlank(message = "Informe seu e-mail.")
+  @Email(message = "Informe um endereço de e-mail válido.")
   private String email;
 
-  @NotBlank
-  @Length(min = 8, message = "O campo [password] deve ter no mínimo 8 caracteres.")
+  @NotBlank(message = "Informe uma senha.")
+  @Length(min = 8, message = "A senha deve conter pelo menos 8 caracteres.")
   private String password;
 
   private String description;

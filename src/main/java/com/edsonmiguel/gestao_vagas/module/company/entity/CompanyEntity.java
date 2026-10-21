@@ -21,17 +21,17 @@ public class CompanyEntity {
   @GeneratedValue(strategy = GenerationType.UUID)
   private UUID id;
 
-  @NotBlank(message = "O Campo [name] não pode ser vazio")
+  @NotBlank(message = "Informe o nome da empresa.")
   private String name;
 
-  @NotBlank
+  @NotBlank(message = "Informe um nome de usuário para a empresa.")
   private String username;
 
-  @NotBlank
-  @Email
+  @NotBlank(message = "Informe o e-mail da empresa.")
+  @Email(message = "Informe um endereço de e-mail válido para a empresa.")
   private String email;
 
-  @NotBlank
+  @NotBlank(message = "Informe uma senha para a empresa.")
   private String password;
   private String website;
   private String description;
