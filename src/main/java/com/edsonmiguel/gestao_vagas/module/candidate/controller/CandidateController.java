@@ -5,7 +5,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.edsonmiguel.gestao_vagas.module.candidate.entity.CandidateEntity;
+import com.edsonmiguel.gestao_vagas.module.candidate.dto.CandidateRequestDTO;
+import com.edsonmiguel.gestao_vagas.module.candidate.dto.CandidateResponseDTO;
 import com.edsonmiguel.gestao_vagas.module.candidate.useCase.CreateCandidateUseCase;
 
 import jakarta.validation.Valid;
@@ -19,7 +20,8 @@ public class CandidateController {
   private final CreateCandidateUseCase createCandidateUseCase;
 
   @PostMapping
-  public CandidateEntity create(@Valid @RequestBody CandidateEntity candidate) {
-    return this.createCandidateUseCase.execute(candidate);
+  public CandidateResponseDTO create(@Valid @RequestBody CandidateRequestDTO request) {
+    var candidate = this.createCandidateUseCase.execute(request.toEntity());
+    return CandidateResponseDTO.from(candidate);
   }
 }

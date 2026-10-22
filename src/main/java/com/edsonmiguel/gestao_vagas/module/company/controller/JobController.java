@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.edsonmiguel.gestao_vagas.module.company.entity.JobEntity;
+import com.edsonmiguel.gestao_vagas.module.company.dto.JobRequestDTO;
+import com.edsonmiguel.gestao_vagas.module.company.dto.JobResponseDTO;
 import com.edsonmiguel.gestao_vagas.module.company.useCase.CreateJobUseCase;
 
 import jakarta.validation.Valid;
@@ -22,9 +23,11 @@ public class JobController {
   private final CreateJobUseCase createJobUseCase;
 
   @PostMapping
-  public JobEntity create(@Valid @RequestBody JobEntity job, @AuthenticationPrincipal String companyId) {
-    job.setCompanyId(UUID.fromString(companyId.toString()));
-    return this.createJobUseCase.execute(job);
+  public JobResponseDTO create(@Valid @RequestBody JobRequestDTO request,
+      @AuthenticationPrincipal String companyId) {
+    var job = request.toEntity();
+    job.setCompanyId(UUID.fromString(companyId));
+    return JobResponseDTO.from(this.createJobUseCase.execute(job));
   }
 
 }

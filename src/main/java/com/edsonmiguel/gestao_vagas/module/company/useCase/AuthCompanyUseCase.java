@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.edsonmiguel.gestao_vagas.module.company.dto.AuthCompanyDTO;
+import com.edsonmiguel.gestao_vagas.module.company.dto.AuthCompanyRequestDTO;
 import com.edsonmiguel.gestao_vagas.module.company.exception.InvalidCompanyCredentialsException;
 import com.edsonmiguel.gestao_vagas.module.company.repository.CompanyRepository;
 
@@ -26,7 +26,7 @@ public class AuthCompanyUseCase {
   @Value("${security.token.secret}")
   private String secretKey;
 
-  public String execute(AuthCompanyDTO authCompany) {
+  public String execute(AuthCompanyRequestDTO authCompany) {
     var company = companyRepository.findByUsername(authCompany.username())
         .orElseThrow(InvalidCompanyCredentialsException::new);
 
