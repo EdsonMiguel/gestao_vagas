@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CreateCandidateUseCase {
 
-  private CandidateRepository candidateRepository;
+  private final CandidateRepository candidateRepository;
 
   public CandidateEntity execute(CandidateEntity candidate) {
     this.candidateRepository.findByUsernameOrEmail(candidate.getUsername(),
