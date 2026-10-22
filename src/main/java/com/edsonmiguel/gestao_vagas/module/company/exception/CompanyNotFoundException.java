@@ -1,7 +1,11 @@
 package com.edsonmiguel.gestao_vagas.module.company.exception;
 
-public class CompanyNotFoundException extends RuntimeException {
+import org.springframework.http.HttpStatus;
+
+import com.edsonmiguel.gestao_vagas.exception.BusinessException;
+
+public class CompanyNotFoundException extends BusinessException {
   public CompanyNotFoundException() {
-    super("Empresa não encontrada");
+    super(HttpStatus.NOT_FOUND, "Empresa não encontrada.");
   }
 }

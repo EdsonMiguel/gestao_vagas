@@ -11,9 +11,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.edsonmiguel.gestao_vagas.module.candidate.exception.CandidateAlreadyExistsException;
-import com.edsonmiguel.gestao_vagas.module.company.exception.CompanyAlreadyExistsException;
-
 @RestControllerAdvice
 public class ExceptionHandlerController {
 
@@ -33,9 +30,9 @@ public class ExceptionHandlerController {
     return errorResponse(HttpStatus.BAD_REQUEST, description);
   }
 
-  @ExceptionHandler({ CandidateAlreadyExistsException.class, CompanyAlreadyExistsException.class })
-  public ResponseEntity<ErrorResponseDTO> handleAlreadyExistsException(RuntimeException ex) {
-    return errorResponse(HttpStatus.CONFLICT, ex.getMessage());
+  @ExceptionHandler(BusinessException.class)
+  public ResponseEntity<ErrorResponseDTO> handleBusinessException(BusinessException ex) {
+    return errorResponse(ex.getStatus(), ex.getMessage());
   }
 
   @ExceptionHandler(Exception.class)
