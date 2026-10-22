@@ -1,5 +1,8 @@
 package com.edsonmiguel.gestao_vagas.module.company.useCase;
 
+import java.time.Duration;
+import java.time.Instant;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -38,6 +41,7 @@ public class AuthCompanyUseCase {
     Algorithm algorithm = Algorithm.HMAC256(this.secretKey);
 
     var token = JWT.create().withIssuer("javagas").withSubject(company.getId().toString())
+        .withExpiresAt(Instant.now().plus(Duration.ofHours(2)))
         .sign(algorithm);
 
     return token;
