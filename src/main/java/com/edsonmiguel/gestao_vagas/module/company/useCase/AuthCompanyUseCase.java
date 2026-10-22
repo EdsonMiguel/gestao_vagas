@@ -25,19 +25,19 @@ public class AuthCompanyUseCase {
   private String secretKey;
 
   public String execute(AuthCompanyDTO autCompay) {
-    var company = companyRepository.findByUsername(autCompay.usernme()).orElseThrow(() -> {
+    var company = companyRepository.findByUsername(autCompay.username()).orElseThrow(() -> {
       throw new CompanyNotFoundException();
     });
 
     var passwordMatches = this.passwordEncoder.matches(autCompay.password(), company.getPassword());
 
     if (!passwordMatches) {
-      throw new CompanyNotFoundException();
+      throw new RuntimeException("Outro Erro");
     }
 
     Algorithm algorithm = Algorithm.HMAC256(this.secretKey);
 
-    var token = JWT.create().withIssuer("javagas").withSubject(company.getId().toString()).withPayload("Teste")
+    var token = JWT.create().withIssuer("javagas").withSubject(company.getId().toString())
         .sign(algorithm);
 
     return token;

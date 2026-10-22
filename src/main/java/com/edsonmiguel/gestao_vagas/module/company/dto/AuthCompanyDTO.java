@@ -1,5 +1,8 @@
 package com.edsonmiguel.gestao_vagas.module.company.dto;
 
-public record AuthCompanyDTO(String usernme, String password) {
+import jakarta.validation.constraints.NotBlank;
 
+public record AuthCompanyDTO(
+    @NotBlank String username,
+    @NotBlank String password) {
 }
